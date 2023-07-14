@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 /**
- * main - Prints a specific sentence and returns 0
+ * main - A program that prints a line with put fonction
  *
  * Return: Always 0 (Success)
  */
@@ -10,3 +10,4 @@ int main(void)
         puts("\"Programming is like building a multilingual puzzle");
 
         return (0);
+}
