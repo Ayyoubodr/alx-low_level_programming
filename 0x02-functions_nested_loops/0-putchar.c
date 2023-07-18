@@ -1,4 +1,4 @@
-#include <main.h>
+#include <stdio>
 /**
 * main - Entry point
 * Description: 'Prints _putchar using putchar prototype'
