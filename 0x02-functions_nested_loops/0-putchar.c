@@ -1,7 +1,7 @@
 #include <main.h>
 /**
 * main - Entry point
-* Description: 'Prints the alphabet in lowercase and uppercase'
+* Description: 'Prints _putchar using putchar prototype'
 * Return: Always 0 (Success)
 */
 int main(void)
