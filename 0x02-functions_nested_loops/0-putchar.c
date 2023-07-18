@@ -1,7 +1,7 @@
 #include "main.h"
 /**
 * main - entry point
-* Description: 'print _putchar using putchar prototype'
+* Description: print _putchar using putchar prototype
 * return: always 0
 */
 int main(void)
