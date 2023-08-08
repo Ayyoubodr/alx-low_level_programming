@@ -1,100 +1,78 @@
-#include "main.h"
-#include <stdio.h>
 #include <stdlib.h>
-/*by div-styl*/
-/**
- * _strlen - calculates the length of a string.
- * @str: input string
- * Return: length of string
- */
-int _strlen(char *str)
-{
-	int length = 0;
+#include "main.h"
 
-	while (str[length] != '\0')
+/**
+ * count_word - helper function to count the number of words in a string
+ * @s: string to evaluate
+ *
+ * Return: number of words
+ */
+int count_word(char *s)
+{
+	int flag, c, w;
+
+	flag = 0;
+	w = 0;
+
+	for (c = 0; s[c] != '\0'; c++)
 	{
-		length++;
+		if (s[c] == ' ')
+			flag = 0;
+		else if (flag == 0)
+		{
+			flag = 1;
+			w++;
+		}
 	}
-	return (length);
+
+	return (w);
 }
 /**
- * _strcopy - duplicate string from place to another
- * @src: the target location we will stock the string in
- * @dest: return string
- * @len: the index
- * Return: the str
- */
-void _strcopy(char *dest, char *src, int len)
-{
-	int i = 0;
-
-	for (i = 0; i < len; i++)
-	{
-		dest[i] = src[i];
-	}
-	dest[len] = '\0';
-}
-/**
- * strtow - splits a string into wrd.
- * @str: input string
- * Return: array of wrd
+ * **strtow - splits a string into words
+ * @str: string to split
+ *
+ * Return: pointer to an array of strings (Success)
+ * or NULL (Error)
  */
 char **strtow(char *str)
 {
-	int i = 0, len = 0, w = 0, j = 0;
-	int index = 0, beginning = 0, inw = 0, wrdlen = 0;
-	int add;
-	char **wrd;
+	char **matrix, *tmp;
+	int i, k = 0, len = 0, words, c = 0, start, end;
 
-	if (str == NULL || str[0] == '\0')
-		return (NULL);
-	add = 1;
-	while (str[i] != '\0')
-	{
-		if (str[i] != ' ')
-		{
-			add = 0;
-			break;
-		}
-		i++;
-	}
-
-	if (add)
+	while (*(str + len))
+		len++;
+	words = count_word(str);
+	if (words == 0)
 		return (NULL);
 
-	len = _strlen(str);
-
-	for (i = 0; i < len; i++)
-	{
-		if (str[i] != ' ' && (i == 0 || str[i - 1] == ' '))
-			w++;
-	}
-	wrd = (char **)malloc((w + 1) * sizeof(char *));
-	if (wrd == NULL)
+	matrix = (char **) malloc(sizeof(char *) * (words + 1));
+	if (matrix == NULL)
 		return (NULL);
-	for (i = 0; i < len; i++)
+
+	for (i = 0; i <= len; i++)
 	{
-		if (str[i] != ' ' && !inw)
+		if (str[i] == ' ' || str[i] == '\0')
 		{
-			inw = 1;
-			beginning = i;
-		}
-		if ((str[i] == ' ' || i == len - 1) && inw)
-		{
-			inw = 0;
-			wrdlen = i - beginning + (i == len - 1 ? 1 : 0);
-			wrd[index] = (char *)malloc((wrdlen + 1) * sizeof(char));
-			if (wrd[index] == NULL)
+			if (c)
 			{
-				for (j = 0; j < index; j++)
-					free(wrd[j]);
-				free(wrd);
-				return (NULL);
+				end = i;
+				tmp = (char *) malloc(sizeof(char) * (c + 1));
+				if (tmp == NULL)
+					return (NULL);
+				while (start < end)
+					*tmp++ = str[start++];
+				*tmp = '\0';
+				matrix[k] = tmp - c;
+				k++;
+				c = 0;
 			}
-			_strcopy(wrd[index], &str[beginning], wrdlen);
-			index++;
 		}
+		else if (c++ == 0)
+			start = i;
 	}
-	wrd[w] = NULL;
-	return (wrd);
+
+	matrix[k] = NULL;
+
+	return (matrix);
 }
+
